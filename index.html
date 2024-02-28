@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>range</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .wrapper{
+            width: 700px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            padding: 30px;
+            background-color: rgb(181, 182, 255);
+            border-radius: 25px;
+        }
+        .container-fild{
+            width: 100%;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-size: 24px;
+        }
+        .input-range{
+            width: 70%;
+            position: relative;
+            padding: 0 15px;
+            overflow: visible;
+        }
+        .number-field{
+            width:  30%;
+            padding: 10px 15px;
+            outline: none;
+            font-size: 20px;
+            text-align: end;
+            border: 1px solid rgb(214, 214, 214);
+            border-radius: 15px;
+            position: relative;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+        .result-container{
+            padding: 20px;
+            border-top: 1px solid  rgba(0, 0, 0, 0.1);
+        }
+        .result-container h1{
+            margin: 0;
+            padding: 0;
+            font-size: 36px;
+            font-weight: 700;
+            font-family:sans-serif ;
+        }
+        .input-fild-container h3{
+            margin: 0;
+            padding: 0 0 15px 0;
+            font-size: 24px;
+            font-weight: 400;
+            font-family:sans-serif ;
+        }
+        #subsciption-range::before{
+            content: "1";
+            font-size: 18px;
+            font-family: sans-serif;
+            position: absolute;
+            top: 30px;
+            left: 5px;
+        }
+        #subsciption-range::after{
+            content: "100,000";
+            font-size: 18px;
+            font-family: sans-serif;
+            position: absolute;
+            top: 30px;
+            right: 5px;
+        }
+        #pricing-range::before{
+            content: "$9.99";
+            font-size: 18px;
+            font-family: sans-serif ;
+            position: absolute;
+            top: 30px;
+            left: 5px;
+        }
+        #pricing-range::after{
+            content: "$39.99";
+            font-size: 18px;
+            font-family: sans-serif;
+            position: absolute;
+            top: 30px;
+            right: 5px;
+        }
+        #pricing-input[type="number"]::before{
+            content: "$";
+            font-size: 18px;
+            font-family: sans-serif;
+            position: absolute;
+            top: 30px;
+            right: 5px;
+            z-index: 10;
+            color: black;
+        }
+        @media screen and (max-width: 768px) {
+            .result-container h1{
+            font-size: 26px;
+            font-weight: 700;
+            font-family:sans-serif ;
+        }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="input-fild-container">
+            <h3>Number of Subscribers</h3>
+            <div class="container-fild">
+                <input id="subsciption-range" class="input-range" type="range" min="1" max="100000" step="1" value="10">
+                <input class="number-field" type="number" value="10">
+            </div>            
+        </div>
+        <div class="input-fild-container">
+            <h3>Number of Subscribers</h3>
+            <div class="container-fild">
+                <input id="pricing-range" class="input-range" type="range" min="9.99" max="39.99" step=".01" value="1">
+                <input id="pricing-input" class="number-field" type="number" value="9.99">
+            </div>  
+        </div>
+        <div class="result-container">
+            <h1>$<span id="result">99.90</span> /month</h1>
+        </div>
+    </div>
+
+
+    <SCript>
+        const rangeFields = document.querySelectorAll('.input-range');
+        const numberFields = document.querySelectorAll('.number-field');
+        const resultElement = document.querySelector('#result');  
+
+
+        rangeFields.forEach((rangeField, index) => {
+            rangeField.addEventListener('input', () => {
+                numberFields[index].value = rangeField.value;
+                updateResult();
+            });
+        });
+
+
+        numberFields.forEach((numberField, index) => {
+            numberField.addEventListener('input', () => {
+                let num = Number(numberField.value);
+                rangeFields[index].value = num;
+                updateResult();
+            });
+        });
+
+
+        function updateResult() {
+            let product = 1;
+            numberFields.forEach((numberField) => {
+                product *= Number(numberField.value);
+            });
+            product = product.toFixed(2);
+            resultElement.innerHTML = product;
+        }
+
+
+    </SCript>
+</body>
+</html>
